@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>M&amp;F Suministros C.A. — Precisión Industrial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-error-container": "#93000a",
+        "tertiary-fixed": "#cfe6f2",
+        "surface-tint": "#2559bd",
+        "on-secondary-container": "#705e00",
+        "primary": "#00327d",
+        "secondary-fixed-dim": "#e8c41d",
+        "on-primary": "#ffffff",
+        "on-secondary-fixed": "#221b00",
+        "inverse-surface": "#2d3133",
+        "on-secondary": "#ffffff",
+        "on-surface": "#191c1e",
+        "on-primary-fixed-variant": "#00419e",
+        "surface-container-lowest": "#ffffff",
+        "secondary-fixed": "#ffe16e",
+        "on-tertiary-fixed-variant": "#354a53",
+        "primary-container": "#0047ab",
+        "on-primary-fixed": "#001946",
+        "on-primary-container": "#a5bdff",
+        "surface-container-low": "#f2f4f6",
+        "secondary": "#705d00",
+        "primary-fixed": "#dae2ff",
+        "surface": "#f8f9fb",
+        "on-tertiary-container": "#abc2cd",
+        "surface-container-high": "#e6e8ea",
+        "secondary-container": "#fdd835",
+        "background": "#f8f9fb",
+        "error": "#ba1a1a",
+        "primary-fixed-dim": "#b1c5ff",
+        "on-secondary-fixed-variant": "#544600",
+        "on-tertiary": "#ffffff",
+        "on-tertiary-fixed": "#071e27",
+        "error-container": "#ffdad6",
+        "outline": "#737784",
+        "tertiary": "#243942",
+        "inverse-on-surface": "#eff1f3",
+        "inverse-primary": "#b1c5ff",
+        "tertiary-fixed-dim": "#b4cad6",
+        "surface-container-highest": "#e0e3e5",
+        "outline-variant": "#c3c6d5",
+        "surface-variant": "#e0e3e5",
+        "tertiary-container": "#3b505a",
+        "surface-bright": "#f8f9fb",
+        "surface-dim": "#d8dadc",
+        "on-surface-variant": "#434653",
+        "on-error": "#ffffff",
+        "surface-container": "#eceef0",
+        "on-background": "#191c1e"
+      },
+      borderRadius: {
+        DEFAULT: "0.25rem",
+        lg: "0.5rem",
+        xl: "0.75rem",
+        "2xl": "1rem",
+        full: "9999px"
+      },
+      spacing: {
+        "gutter-mobile": "16px",
+        "margin-desktop": "40px",
+        "gutter-desktop": "24px",
+        "base": "8px",
+        "container-max": "1280px",
+        "margin-mobile": "20px"
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"]
+      },
+      fontSize: {
+        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+        "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+        "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500" }],
+        "headline-lg-mobile": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+        "headline-md-mobile": ["20px", { lineHeight: "28px", fontWeight: "600" }]
+      }
+    }
+  }
+}
+</script>
+<style>
+html { scroll-behavior: smooth; }
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+body { background-color: #f8f9fb; }
+
+/* Drawer overlay */
+#drawer-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+#drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer panel */
+#drawer-panel {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+#drawer-panel.open {
+  transform: translateX(0);
+}
+
+body.drawer-open {
+  overflow: hidden;
+}
+</style>
+</head>
+<body class="font-sans text-on-surface bg-background antialiased">
+
+<!-- Drawer Overlay -->
+<div id="drawer-overlay" class="fixed inset-0 z-40 bg-black/50"></div>
+
+<!-- Drawer Panel -->
+<div id="drawer-panel" class="fixed top-0 left-0 z-50 w-72 h-full bg-surface shadow-2xl border-r border-outline-variant flex flex-col">
+  <div class="flex items-center justify-between px-5 h-16 border-b border-outline-variant">
+    <span class="font-bold text-primary text-headline-md-mobile">M&amp;F Suministros</span>
+    <button id="drawer-close" class="material-symbols-outlined text-on-surface-variant p-1">close</button>
+  </div>
+  <nav class="flex-1 flex flex-col p-5 gap-1">
+    <a href="#inicio" class="drawer-link flex items-center gap-3 px-4 py-3.5 rounded-xl text-body-md font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+      <span class="material-symbols-outlined text-primary">home</span> Inicio
+    </a>
+    <a href="#servicios" class="drawer-link flex items-center gap-3 px-4 py-3.5 rounded-xl text-body-md font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+      <span class="material-symbols-outlined text-primary">precision_manufacturing</span> Servicios
+    </a>
+    <a href="#porque-nosotros" class="drawer-link flex items-center gap-3 px-4 py-3.5 rounded-xl text-body-md font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+      <span class="material-symbols-outlined text-primary">verified</span> Por Qué Nosotros
+    </a>
+    <a href="#ubicacion" class="drawer-link flex items-center gap-3 px-4 py-3.5 rounded-xl text-body-md font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+      <span class="material-symbols-outlined text-primary">location_on</span> Ubicación
+    </a>
+    <a href="#contacto" class="drawer-link flex items-center gap-3 px-4 py-3.5 rounded-xl text-body-md font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+      <span class="material-symbols-outlined text-primary">contact_support</span> Contacto
+    </a>
+    <hr class="my-4 border-outline-variant"/>
+    <a href="https://www.instagram.com/myfsuministros/" target="_blank" class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-body-md font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+      <span class="material-symbols-outlined text-primary">camera_alt</span> Instagram
+    </a>
+    <a href="https://wa.me/584246706202" target="_blank" class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-body-md font-medium text-on-surface hover:bg-surface-container-high transition-colors">
+      <span class="material-symbols-outlined text-primary">chat</span> WhatsApp
+    </a>
+  </nav>
+  <div class="p-5 border-t border-outline-variant">
+    <p class="text-label-sm text-outline">© 2024 M&amp;F Suministros C.A.</p>
+  </div>
+</div>
+
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-outline-variant fixed top-0 w-full z-30">
+  <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto">
+    <div class="flex items-center gap-3">
+      <button id="drawer-trigger" class="material-symbols-outlined text-primary md:hidden">menu</button>
+      <img alt="M&amp;F Suministros" class="h-9 w-9 md:h-10 md:w-10 object-contain" src="assets/logo 3d.png"/>
+      <span class="text-headline-md-mobile md:text-headline-md font-bold text-primary truncate">M&amp;F Suministros</span>
+    </div>
+    <nav class="hidden md:flex items-center gap-8">
+      <a class="text-primary font-semibold border-b-2 border-primary pb-1" href="#inicio">Inicio</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#servicios">Servicios</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#porque-nosotros">Nosotros</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#ubicacion">Ubicación</a>
+      <a class="text-on-surface-variant hover:text-primary transition-colors" href="#contacto">Contacto</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="https://www.instagram.com/myfsuministros/" target="_blank" class="hidden sm:inline-flex text-on-surface-variant hover:text-primary transition-colors" title="Instagram">
+        <span class="material-symbols-outlined">camera_alt</span>
+      </a>
+      <a href="https://wa.me/584246706202" class="hidden md:inline-flex bg-primary text-on-primary px-5 py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition-all active:scale-95 items-center gap-2">
+        <span class="material-symbols-outlined text-sm">chat</span> Cotizar
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="pt-16 pb-24 md:pb-0">
+
+  <!-- Hero -->
+  <section id="inicio" class="relative min-h-[520px] md:min-h-[600px] flex items-center overflow-hidden bg-primary-container">
+    <div class="absolute inset-0 opacity-40 mix-blend-multiply">
+      <img class="w-full h-full object-cover" alt="Banner M&amp;F Suministros" src="assets/banner 1.png"/>
+    </div>
+    <div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full">
+      <div class="max-w-2xl text-white">
+        <span class="inline-block px-4 py-1 bg-secondary-container text-on-secondary-container text-label-sm rounded-full mb-6 uppercase tracking-wider">Excelencia Industrial</span>
+        <h1 class="text-headline-lg-mobile md:text-display-lg mb-6 leading-tight">Equipando tu Fuerza Laboral con Precisión</h1>
+        <p class="text-body-md md:text-body-lg mb-10 text-on-primary-container/90 max-w-xl">EPP de calidad superior, uniformes industriales y suministros de limpieza especializados para los más altos estándares de seguridad y desempeño profesional. Envíos a todo Venezuela.</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="https://wa.me/584246706202" class="bg-secondary-container text-on-secondary-fixed font-bold px-7 py-3.5 rounded-lg flex items-center gap-2 hover:brightness-110 transition-all active:scale-95">
+            <span class="material-symbols-outlined">request_quote</span> Solicitar Cotización
+          </a>
+          <a href="#servicios" class="border-2 border-white text-white font-bold px-7 py-3.5 rounded-lg hover:bg-white hover:text-primary transition-all active:scale-95">
+            Ver Catálogo
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios Bento Grid -->
+  <section id="servicios" class="py-16 md:py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop scroll-mt-20">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+      <div>
+        <span class="text-primary font-bold tracking-widest uppercase text-label-sm">Nuestra Experiencia</span>
+        <h2 class="text-headline-lg-mobile md:text-headline-lg mt-2">Soluciones Integrales de Seguridad</h2>
+      </div>
+      <p class="max-w-md text-on-surface-variant text-body-md">Proveemos equipos especializados para las exigencias de entornos industriales, químicos y médicos.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter-desktop h-auto md:h-[600px]">
+      <!-- Uniformes -->
+      <div class="md:col-span-7 group relative overflow-hidden rounded-xl bg-white border border-outline-variant shadow-sm hover:shadow-md transition-all min-h-[260px]">
+        <div class="absolute inset-0">
+          <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Uniformes industriales de alta calidad" src="assets/banner 2.png"/>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6 md:p-8 text-white">
+          <span class="bg-primary px-3 py-1 rounded text-label-sm mb-3 inline-block">Textiles Industriales</span>
+          <h3 class="text-headline-md-mobile md:text-headline-md mb-2">Uniformes Industriales</h3>
+          <p class="text-body-md opacity-90 max-w-sm">Prendas duraderas y personalizadas, diseñadas para comodidad y longevidad en las operaciones más exigentes.</p>
+        </div>
+      </div>
+
+      <!-- EPP -->
+      <div class="md:col-span-5 group relative overflow-hidden rounded-xl bg-white border border-outline-variant shadow-sm hover:shadow-md transition-all min-h-[260px]">
+        <div class="absolute inset-0">
+          <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Equipos de protección personal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1fFWhFGDyDalGfcdZLy2y-uwt5D0fs_dOCXC3p_XAJ1c66SXxxGdqHhoi6JGA5preomwTepRRBpIG46v-erhMamOWaJsjzXQ1hzO-q4jDK5KmJ7g-Dqu-m01ZdVFE4jjHXIZQ7BSTkInvQuRJUGYmWaP5riino50kQOJBT1EicB6roNdQ8IIMIHWH6JSW_838mcL1T0byJm7xBBEYi9uFUoMuN8r8lF64Co8nQuuBkXVAwPJqClzn_zLe6rBV4doJYHKTpudi-4U"/>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6 md:p-8 text-white">
+          <span class="bg-secondary px-3 py-1 rounded text-label-sm mb-3 inline-block">Equipo de Seguridad</span>
+          <h3 class="text-headline-md-mobile md:text-headline-md mb-2">EPP</h3>
+          <p class="text-body-md opacity-90">Cascos, guantes y equipo certificado bajo normativas ISO de seguridad internacional.</p>
+        </div>
+      </div>
+
+      <!-- Limpieza -->
+      <div class="md:col-span-12 group relative overflow-hidden rounded-xl bg-white border border-outline-variant shadow-sm hover:shadow-md transition-all min-h-[200px]">
+        <div class="absolute inset-0">
+          <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Insumos de limpieza industrial" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAugvfnOtjORt31cT36i3OCYrTzrp3ec0Fgcauv7stBNWa92v_jgek68ZNNU-oQ31Wwsy7eTbJNJtoFGdzwYv41IfWrYVu3ODIXOcJ4qGl3O-CFbk7kgUUYx91ijIys0-hXhdDN_5V7jBUDCzZDzRADgtW-Pj6ZknxAaL7G6FljPPtfIzb9kQme9risjuMmt46ef4ly6G2Aso1wT-x2h7bDkHEQHQ2w5W_bhKbvtTf-NUDGLPxzvQBHhitRtNjeynrdvwnSM--aEe8"/>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+        <div class="absolute inset-y-0 left-0 p-6 md:p-8 flex flex-col justify-center text-white">
+          <span class="bg-tertiary px-3 py-1 rounded text-label-sm mb-3 w-fit">Químicos y Herramientas</span>
+          <h3 class="text-headline-md-mobile md:text-headline-md mb-2">Insumos de Limpieza Profesional</h3>
+          <p class="text-body-md opacity-90 max-w-lg">Formulaciones químicas avanzadas y herramientas de grado profesional para mantener entornos industriales estériles.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por Qué Nosotros -->
+  <section id="porque-nosotros" class="bg-surface-container-low py-16 md:py-24 border-y border-outline-variant scroll-mt-20">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+      <div class="text-center mb-12 md:mb-16">
+        <span class="text-primary font-bold tracking-widest uppercase text-label-sm">Por Qué M&amp;F</span>
+        <h2 class="text-headline-lg-mobile md:text-headline-lg mt-2">Tu Socio de Confianza en Seguridad Industrial</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div class="flex flex-col items-center text-center p-6 md:p-8 bg-white rounded-xl border border-outline-variant hover:border-primary transition-colors shadow-sm">
+          <div class="w-16 h-16 bg-primary-container/10 rounded-full flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+          </div>
+          <h4 class="text-headline-md-mobile md:text-headline-md mb-3">Calidad ISO</h4>
+          <p class="text-body-md text-on-surface-variant">Compromiso con estándares internacionales. Todos nuestros productos pasan rigurosas pruebas de seguridad.</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-6 md:p-8 bg-white rounded-xl border border-outline-variant hover:border-primary transition-colors shadow-sm">
+          <div class="w-16 h-16 bg-primary-container/10 rounded-full flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+          </div>
+          <h4 class="text-headline-md-mobile md:text-headline-md mb-3">Cobertura Nacional</h4>
+          <p class="text-body-md text-on-surface-variant">Base estratégica en Maracaibo con logística confiable hacia todo el territorio venezolano.</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-6 md:p-8 bg-white rounded-xl border border-outline-variant hover:border-primary transition-colors shadow-sm">
+          <div class="w-16 h-16 bg-primary-container/10 rounded-full flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">engineering</span>
+          </div>
+          <h4 class="text-headline-md-mobile md:text-headline-md mb-3">Asesoría Experta</h4>
+          <p class="text-body-md text-on-surface-variant">Asistencia técnica en selección de materiales y equipos para optimizar seguridad y presupuesto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ubicación + Contacto -->
+  <section id="ubicacion" class="py-16 md:py-24 bg-white scroll-mt-20">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-gutter-desktop items-center">
+      <div class="rounded-xl overflow-hidden border border-outline-variant h-[260px] md:h-[340px] shadow-sm">
+        <img class="w-full h-full object-cover grayscale contrast-125 opacity-80" alt="Mapa Maracaibo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD17kHb91ZSqa3kfpbiHz4Fr-Gu6V1TPiTk94H3Hm8ENN2HE37x3ZheQgr37szp0mxXaDUQ_DXsjVfOwW5luyycQxdecWiWy3ojWpy4nvxyUN8aeAYAi-dwHPyEve0FetoUFIlCaV7UZY7rA5vqDbfEBb-MtQSPy5agFZdf8EMjom72v9Ox2uxQDmwQ8QjEtdjTzDbG7poYRVFn8jjNKYL_TpTy3miD7ZOiL7YgvCfbVAjY4UbkYCR8VqWJ4Z0ymRjTR91s58eX6Ig"/>
+      </div>
+      <div class="md:pl-8">
+        <h2 class="text-headline-lg-mobile md:text-headline-lg mb-4">Centro Logístico Estratégico</h2>
+        <p class="text-body-md md:text-body-lg text-on-surface-variant mb-8">Operamos desde Maracaibo para cerrar la brecha entre fabricantes globales y la fuerza laboral local. Atención rápida y personalizada a los sectores petrolero, médico y manufacturero.</p>
+        <div class="space-y-5">
+          <div class="flex gap-4 items-start">
+            <span class="material-symbols-outlined text-primary mt-0.5 shrink-0">location_on</span>
+            <div>
+              <p class="text-body-md font-bold">Maracaibo, Zulia</p>
+              <p class="text-body-md text-on-surface-variant">Zona Industrial, Venezuela</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <span class="material-symbols-outlined text-primary mt-0.5 shrink-0">phone_in_talk</span>
+            <div>
+              <p class="text-body-md font-bold">Consultas</p>
+              <a href="tel:+582615550123" class="text-body-md text-on-surface-variant hover:text-primary transition-colors block">+58 (0261) 555-0123</a>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <span class="material-symbols-outlined text-primary mt-0.5 shrink-0">mail</span>
+            <div>
+              <p class="text-body-md font-bold">Correo Corporativo</p>
+              <a href="mailto:ventas@mfsuministros.com" class="text-body-md text-on-surface-variant hover:text-primary transition-colors block">ventas@mfsuministros.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="py-16 md:py-20 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+    <div class="bg-primary p-8 md:p-16 rounded-2xl text-white text-center shadow-xl">
+      <span class="material-symbols-outlined text-secondary-container text-5xl mb-4">verified</span>
+      <h2 class="text-headline-lg-mobile md:text-headline-lg mb-4">¿Listo para Asegurar tus Operaciones?</h2>
+      <p class="text-body-md md:text-body-lg text-on-primary-container/90 mb-8 max-w-xl mx-auto">Únete a las empresas que confían en M&amp;F Suministros para su seguridad industrial.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="https://wa.me/584246706202" class="bg-secondary-container text-on-secondary-fixed font-bold px-8 py-4 rounded-lg flex items-center justify-center gap-2 hover:brightness-110 transition-all active:scale-95 shadow-lg">
+          <span class="material-symbols-outlined">chat</span> Contactar por WhatsApp
+        </a>
+        <a href="#servicios" class="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white hover:text-primary transition-all active:scale-95">
+          Ver Catálogo
+        </a>
+      </div>
+      <p class="mt-6 text-label-sm text-on-primary-container/70">Sin compromiso. Te respondemos en máximo 4 horas hábiles.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer id="contacto" class="bg-inverse-surface text-inverse-on-surface scroll-mt-20">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div class="md:col-span-1">
+        <div class="flex items-center gap-3 mb-5">
+          <img alt="M&amp;F" class="h-14 w-auto object-contain" src="assets/logo 3d.png"/>
+          <span class="text-headline-md font-bold">M&amp;F Suministros</span>
+        </div>
+        <p class="text-body-md opacity-70 mb-6">Especialistas en uniformes industriales, equipos de seguridad e insumos de mantenimiento desde 2008.</p>
+        <div class="flex gap-3 mb-5">
+          <a href="https://www.instagram.com/myfsuministros/" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary-container/30 transition-colors" title="Instagram">
+            <span class="material-symbols-outlined text-sm">camera_alt</span>
+          </a>
+          <a href="https://wa.me/584246706202" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary-container/30 transition-colors" title="WhatsApp">
+            <span class="material-symbols-outlined text-sm">chat</span>
+          </a>
+          <a href="mailto:ventas@mfsuministros.com" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary-container/30 transition-colors" title="Email">
+            <span class="material-symbols-outlined text-sm">mail</span>
+          </a>
+        </div>
+        <p class="text-label-sm opacity-50">RIF: J-41002579-4</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-5 text-tertiary-fixed">Productos</h4>
+        <ul class="space-y-3 opacity-70">
+          <li><a class="hover:text-secondary-fixed transition-colors" href="#">Uniformes Industriales</a></li>
+          <li><a class="hover:text-secondary-fixed transition-colors" href="#">Equipos EPP</a></li>
+          <li><a class="hover:text-secondary-fixed transition-colors" href="#">Químicos de Limpieza</a></li>
+          <li><a class="hover:text-secondary-fixed transition-colors" href="#">Herramientas de Sanitización</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-5 text-tertiary-fixed">Soporte</h4>
+        <ul class="space-y-3 opacity-70">
+          <li><a class="hover:text-secondary-fixed transition-colors" href="https://wa.me/584246706202">Solicitar Cotización</a></li>
+          <li><a class="hover:text-secondary-fixed transition-colors" href="#">Políticas de Envío</a></li>
+          <li><a class="hover:text-secondary-fixed transition-colors" href="#">Fichas Técnicas</a></li>
+          <li><a class="hover:text-secondary-fixed transition-colors" href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-5 text-tertiary-fixed">Contacto</h4>
+        <ul class="space-y-3 opacity-70">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm shrink-0">location_on</span> Maracaibo, Venezuela</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm shrink-0">phone</span> <a href="tel:+582615550123" class="hover:text-secondary-fixed transition-colors">+58 (0261) 555-0123</a></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm shrink-0">mail</span> <a href="mailto:ventas@mfsuministros.com" class="hover:text-secondary-fixed transition-colors">ventas@mfsuministros.com</a></li>
+          <li class="mt-4 flex flex-wrap gap-2">
+            <a href="https://wa.me/584246706202" class="inline-flex items-center gap-2 bg-secondary-container/20 text-secondary-fixed px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary-container/30 transition-colors"><span class="material-symbols-outlined text-sm">chat</span> WhatsApp</a>
+            <a href="https://www.instagram.com/myfsuministros/" target="_blank" class="inline-flex items-center gap-2 bg-white/10 text-secondary-fixed px-4 py-2 rounded-lg text-sm font-semibold hover:bg-secondary-container/30 transition-colors"><span class="material-symbols-outlined text-sm">camera_alt</span> Instagram</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-12 pt-8 border-t border-outline/20 text-center opacity-40 text-label-sm">
+      <p>© 2024 M&amp;F Suministros C.A. — Precisión Industrial y Seguridad.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-30 flex justify-around items-center h-16 bg-surface border-t border-outline-variant shadow-lg pb-safe">
+  <a href="#inicio" class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-90 transition-transform active:scale-95">
+    <span class="material-symbols-outlined">home</span>
+    <span class="text-label-sm">Inicio</span>
+  </a>
+  <a href="#servicios" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors">
+    <span class="material-symbols-outlined">category</span>
+    <span class="text-label-sm">Catálogo</span>
+  </a>
+  <a href="https://wa.me/584246706202" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors">
+    <span class="material-symbols-outlined">chat</span>
+    <span class="text-label-sm">WhatsApp</span>
+  </a>
+  <a href="https://www.instagram.com/myfsuministros/" target="_blank" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-colors">
+    <span class="material-symbols-outlined">camera_alt</span>
+    <span class="text-label-sm">Instagram</span>
+  </a>
+</nav>
+
+<script>
+(function() {
+  const trigger = document.getElementById('drawer-trigger');
+  const closeBtn = document.getElementById('drawer-close');
+  const overlay = document.getElementById('drawer-overlay');
+  const panel = document.getElementById('drawer-panel');
+  const body = document.body;
+  const links = document.querySelectorAll('.drawer-link');
+
+  function openDrawer() {
+    overlay.classList.add('open');
+    panel.classList.add('open');
+    body.classList.add('drawer-open');
+  }
+
+  function closeDrawer() {
+    overlay.classList.remove('open');
+    panel.classList.remove('open');
+    body.classList.remove('drawer-open');
+  }
+
+  if (trigger) trigger.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (overlay) overlay.addEventListener('click', closeDrawer);
+
+  links.forEach(function(link) {
+    link.addEventListener('click', closeDrawer);
+  });
+})();
+</script>
+</body>
+</html>
